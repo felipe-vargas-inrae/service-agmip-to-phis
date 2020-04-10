@@ -1,13 +1,13 @@
 {
-  "name": "agmip_phis_request",
+  "name": "service-agmip-to-phis",
   "version": "1.0.0",
-  "description": "An script to send data to phis based on JSON agmip input",
+  "description": "A project to send data to phis based on JSON agmip input",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "@felipe_vargas",
+  "author": "@felipe vargas-rojas",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.0",
