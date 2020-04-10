@@ -1,0 +1,17 @@
+[
+  {
+    "rdfType": "http://www.opensilex.org/vocabulary/oeso#Plot",
+    "experiment": "http://www.phenome-fppn.fr/agmip/AGP2019-2",
+    "geometry" : "POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))",
+    "year": "2020",
+    "label": "plot test 29/01",
+    "alias": "plot test 29/01",
+    "properties": [
+      {
+        "rdfType": "http://www.w3.org/2002/07/owl#DatatypeProperty",
+        "relation": "http://www.opensilex.org/vocabulary/oeso#hasExperimentModalities",
+        "value": "WW"
+      }
+    ]
+  }
+]

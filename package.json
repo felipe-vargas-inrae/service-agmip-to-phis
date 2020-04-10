@@ -1,0 +1,28 @@
+{
+  "name": "agmip_phis_request",
+  "version": "1.0.0",
+  "description": "An script to send data to phis based on JSON agmip input",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@felipe_vargas",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.18.3",
+    "bson": "^4.0.2",
+    "cors": "^2.8.4",
+    "csvtojson": "^2.0.8",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "formidable": "^1.2.1",
+    "jsonpath": "^1.0.2",
+    "jsonwebtoken": "^8.2.2",
+    "rootpath": "^0.1.2",
+    "swagger-ui-express": "^4.0.2",
+    "uuid": "^3.3.3"
+  }
+}
