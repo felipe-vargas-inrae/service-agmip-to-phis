@@ -1,4 +1,5 @@
 // https://json-schema.org/draft-07/json-schema-release-notes.html
+// not used yet
 const schema={
 
     properties:{
@@ -17,7 +18,3 @@ const schema={
 
     }
 }
-/**
- * 
- * 
- */
