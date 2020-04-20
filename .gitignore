@@ -1,6 +1,6 @@
 #
 external_documents/
-
+src/models/data/
 # Logs
 logs
 *.log
