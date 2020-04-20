@@ -1,32 +1,26 @@
 
 import uuidv1 from 'uuid/v1'
 
-
-// constans
-const ICASA_PREFIX="icasa:"
-const OESO_PREFIX="oeso:"
-const RDFS_PREFIX="rdfs:"
-
-// constans ontologies classes
-
-const EXPERIMENTS = "Experiments"
-const INSTITUCIONS = "Group"
-
+import {IcasaOntology, OepoOntology, RdfsOntology, FoafOntology} from '../../ontologies'
 /**
  * Class to get methods for formarting ontologies as turtle expression or ontology terms
  */
 class OntologyFormatHelper{
-    icasa(name:string):string{
-        return ICASA_PREFIX+name
+    icasa():IcasaOntology{
+        return new IcasaOntology()
     }
-    oeso(name:string):string{
-        return OESO_PREFIX+name
+    oepo():OepoOntology{
+        return new OepoOntology()
     }
-    rdfs(name: string){
-        return RDFS_PREFIX+name
+    rdfs():RdfsOntology{
+        return new RdfsOntology()
     }
-    formatDate(dateStr:string):string{
+    foaf():FoafOntology{
+        return new FoafOntology()
+    }
+    formatDate(dateStr:(string)):string{
         // var st = "26.04.2013";
+
         const pattern = /(\d{4})(\d{2})(\d{2})/;
         const dt = dateStr.replace(pattern,'$1-$2-$3');
         return dt
@@ -35,6 +29,7 @@ class OntologyFormatHelper{
         return owlStr.split(':')[1]
     }
     isDateField(fieldName:string):boolean{
+        if(typeof(fieldName)!=="string" ){return false}
         const x = fieldName.toLowerCase().includes('date')
         return x
     }
@@ -42,14 +37,6 @@ class OntologyFormatHelper{
 
         if(!complement) complement=uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8bad-9b1deb4d3b7d'
         return "_"+ontologyClass.replace(':','')+'_'+complement
-    }
-
-    institucionClass(){
-        return this.oeso(INSTITUCIONS)
-    }
-
-    experimentClass(){
-        return this.oeso(EXPERIMENTS)
     }
 }
 export default new OntologyFormatHelper()

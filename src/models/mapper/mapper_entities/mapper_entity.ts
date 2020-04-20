@@ -35,19 +35,29 @@ class MapperEntity {
     public set exactPath(value: string) {
         this._exactPath = value
     }
-    private _dataPropertie: MapperEntityDataProperty[]
-    public get dataPropertie(): MapperEntityDataProperty[] {
-        return this._dataPropertie
+    private _dataProperties: MapperEntityDataProperty[]
+    public get dataProperties(): MapperEntityDataProperty[] {
+        return this._dataProperties
     }
-    public set dataPropertie(value: MapperEntityDataProperty[]) {
-        this._dataPropertie = value
+    public set dataProperties(value: MapperEntityDataProperty[]) {
+        this._dataProperties = value
     }
-    constructor( iriLocal:string, iriRemote:string, isA:string,  exactPath:string, dataproperties:MapperEntityDataProperty[]){
+    constructor( iriLocal:string, iriRemote:string, isA:string,  exactPath:string, dataProperties:MapperEntityDataProperty[]){
         this.iriLocal=iriLocal
         this.iriRemote=iriRemote,
         this.isA=isA,
         this.exactPath=exactPath,
-        this.dataPropertie=dataproperties
+        this.dataProperties=dataProperties
+    }
+
+    getOneValueByDataProperty(dataPropertyName:string): string|number {
+
+        for (const property of this.dataProperties){
+            if(property.propertyName===dataPropertyName){
+                return property.value
+            }
+        }
+        return null
     }
 }
 

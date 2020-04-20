@@ -1,7 +1,7 @@
 
 import {OntologyFormatHelper} from '../mapper/mapper_classes_definitions/'
 const icasa = OntologyFormatHelper.icasa
-const oeso = OntologyFormatHelper.oeso
+const oeso = OntologyFormatHelper.oepo()
 
 class PhisGroup {
     // Array[GroupPostDTO {
@@ -15,7 +15,7 @@ class PhisGroup {
     private description:string
     private level:string
     populateFromMapper(institutionMapper):void{
-        const objectName = institutionMapper.dataProperties.find((item)=>{return item.dataProperty===oeso("name") })
+        const objectName = institutionMapper.dataProperties.find((item)=>{return item.dataProperty===oeso.name })
         this.name = objectName.value
         this.description = "my description"
         this.level = "Owner"

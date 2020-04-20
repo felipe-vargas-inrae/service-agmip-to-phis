@@ -2,7 +2,7 @@
 import {ClassItemMap, ClassItemIriMap, DataPropertyItemMap,
     PropertyItemMap, OntologyFormatHelper} from './mapper_classes_definitions'
 
-import {MapperEntity, MapperEntityDataProperty, MapperEntityObjectProperty, IndividualsRequest} from './mapper_entities'
+import {MapperEntity, MapperEntityDataProperty, MapperEntityObjectProperty, RequestStructure} from './mapper_entities'
 import JsonScanAgMIP from '../entities/json_scan_agmip'
 import MapperRules from './mapper_rules'
 
@@ -29,7 +29,6 @@ const getDataPropertiesByClass=(classReference:ClassItemMap,propertiesList:DataP
 const processClass=(classItem: ClassItemMap|ClassItemIriMap ,
      dataProperties:DataPropertyItemMap[],
      jsonFileManager: JsonScanAgMIP):MapperEntity[]=>{
-    console.log(classItem)
     const className=classItem.className
     const jsonPath=classItem.path
 
@@ -76,12 +75,11 @@ const processDataProperties=(dataPropertiesList: DataPropertyItemMap[], exacPath
         const valuePath = property.valuePath
         const classItemMapA = property.classItemMapA
         const propertyName=property.propertyName
-
         // case 1 child value
         let valueProperty=null
         if(valuePath.includes(classItemMapA.path)){
             const exactPathValue=valuePath.replace(classItemMapA.path,'$').replace('$',exacPathOwner)
-            valueProperty=jsonFileManager.getPath(exactPathValue)
+            valueProperty=jsonFileManager.getPathFirstElement(exactPathValue)
         }
         if(jsonFileManager.hasResponse(valueProperty)){
             return new MapperEntityDataProperty(propertyName, valueProperty)
@@ -142,7 +140,7 @@ const getSubPath=(path: string):string=>{
  * based on an integer return the json path array string position
  * @param i
  */
-const getArrayPostJsonPath=(i:number):string=>{
+const getArrayIndexJsonPath=(i:number):string=>{
     return ARRAY_SYMBOL_JSONPATH.replace('*', String(i))
 }
 
@@ -152,7 +150,7 @@ const allPosiblesPaths=(path: string, jsonFileManager: JsonScanAgMIP):string[]=>
         const pathSize=jsonFileManager.getPathSize(getSubPath(path))
         let temporalPathList=[]
         for(let i = 0; i< pathSize;i++){
-            const newPath = path.replace(ARRAY_SYMBOL_JSONPATH,getArrayPostJsonPath(i))
+            const newPath = path.replace(ARRAY_SYMBOL_JSONPATH,getArrayIndexJsonPath(i))
             const recursive = allPosiblesPaths(newPath,jsonFileManager)
             temporalPathList=temporalPathList.concat(recursive)
         }
@@ -188,7 +186,7 @@ class AgMipPhisMapper {
      * based on the agmip json file and the declare rules create a json ready to be request
      * @param jsonFileManager is a JsonPhis instance used to manipulate the agmip json file
      */
-    compile(jsonFileManager: JsonScanAgMIP){
+    compile(jsonFileManager: JsonScanAgMIP):RequestStructure{
         const rules= MapperRules.getRules()
 
         let allIndividuals=[]
@@ -196,11 +194,10 @@ class AgMipPhisMapper {
 
         for(const currentClass of rules.classes){
             const classIndividuals=processClass(currentClass, rules.dataProperties,jsonFileManager)
-            console.log(classIndividuals)
             allIndividuals=allIndividuals.concat(classIndividuals)
         }
 
-        console.log("all individuals", allIndividuals)
+        // console.log("all individuals", allIndividuals)
 
         let objectProperties =[]
         //  process object properties after created all the classes individuals
@@ -211,7 +208,7 @@ class AgMipPhisMapper {
         // const objectPropertiesFlatten= flatten(objectProperties)
 
         const cleanedIndividuals= removeDuplicates(allIndividuals,[])
-        return new IndividualsRequest(
+        return new RequestStructure(
             cleanedIndividuals,objectProperties)
     }
 }

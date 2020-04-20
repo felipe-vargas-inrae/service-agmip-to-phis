@@ -1,18 +1,18 @@
 
 
-import {OntologyFormatHelper} from '../mapper_classes_definitions/'
-import {MapperEntity, MapperEntityObjectProperty} from './'
+import {OntologyFormatHelper} from '../mapper_classes_definitions'
+import {MapperEntity, MapperEntityObjectProperty} from '.'
 
-const institutionClass = OntologyFormatHelper.institucionClass()
-const experimentClass = OntologyFormatHelper.experimentClass()
+const institutionClass = OntologyFormatHelper.icasa().Organization
+const experimentClass = OntologyFormatHelper.oepo().Experiment
 
-const getClassIndividuals=(individuals: MapperEntity[], isA: string)=>{
+const getClassIndividuals=(individuals: MapperEntity[], isA: string):MapperEntity[]=>{
     const result = individuals.filter((item)=>{
         return item.isA===isA
     })
     return result
 }
-class IndividualsRequest{
+class RequestStructure{
 
     private _individuals: MapperEntity[]
     private _objectProperties: MapperEntityObjectProperty[]
@@ -35,17 +35,17 @@ class IndividualsRequest{
     }
 
 
-    getInstitutions(individuals: MapperEntity[]){
-        return getClassIndividuals(individuals, institutionClass)
+    getInstitutions(){
+        return getClassIndividuals(this._individuals, institutionClass)
     }
 
-    getExperiments(individuals: MapperEntity[]){
-        return getClassIndividuals(individuals, experimentClass)
+    getExperiments(){
+        return getClassIndividuals(this._individuals, experimentClass)
     }
 
-    updateRemoteIri(listMatchsIrisLocalRemote: any[], individuals:MapperEntity[]){
+    updateRemoteIri(listMatchsIrisLocalRemote: any[]){
         console.log(listMatchsIrisLocalRemote)
-        for (const individual of  individuals) {
+        for (const individual of  this._individuals) {
 
             const matchIris= listMatchsIrisLocalRemote.find((item)=>{
                 const key = "iriLocal"
@@ -59,4 +59,4 @@ class IndividualsRequest{
     }
 }
 
-export default IndividualsRequest
+export default RequestStructure
