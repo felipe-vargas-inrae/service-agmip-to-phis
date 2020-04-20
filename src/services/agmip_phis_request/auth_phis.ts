@@ -1,6 +1,5 @@
 import constants from '../../utils/constans'
 import axios from 'axios'
-
 // HELPERS---------------------
 async function getTokenAxios():Promise<string>{
     // Want to use async/await? Add the `async` keyword to your outer function/method.
@@ -9,8 +8,8 @@ async function getTokenAxios():Promise<string>{
 
       const data = {
           "grant_type": "password",
-          "username": "admin@opensilex.org",
-          "password": "21232f297a57a5a743894a0e4a801fc3",
+          "username":process.env.USER_PHIS ,
+          "password": process.env.PASSWORD_PHIS,
           "client_id": "string"
       }
       const response = await axios.post(url, data)
